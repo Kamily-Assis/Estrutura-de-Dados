@@ -101,7 +101,7 @@ int main()
 {
     //Leitor dos arquivos e carregamento das estruturas do grafo
     
-    ifstream arquivo("arq.txt"); //input-file-stream - faz o fluxo de entrada do arquivo
+    ifstream arquivo("arq_teste.txt"); //input-file-stream - faz o fluxo de entrada do arquivo
     int vertices, arestas;
     arquivo >> vertices >> arestas; //usado para ler e armazenar os valores que estavam no arquivo
     
