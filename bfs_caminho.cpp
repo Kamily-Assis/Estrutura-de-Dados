@@ -33,7 +33,7 @@ class grafo{
             matriz_adj[v][u] = 1;
             lista_adj[u].push_back(v);
             lista_adj[v].push_back(u);
-        };
+        }
         
         /*Busca em Largura (BFS) - o criar uma função que imprima o caminho entre
         dois vértices s e t  formado pelo BFS. 
@@ -61,17 +61,15 @@ class grafo{
                         visitados[v] = true; //marca o vertice v como visitado
                         pais[v] = u; //registra o vertice 'u' como pai do vertice 'v'.
                         //usado para reconstruir o caminho entre eles 
-                    };
-                };
-            };
+                    }
+                }
+            }
             
-            if(!visitados[t]){ // verifica se t foi visitado a partir de s
+            if(visitados[t]){ // verifica se t foi visitado a partir de s
                 //se não foi
                 cout << "Não existe caminho entre o vertice t e s" << endl;
                 
-            }
-            
-            else { //se foi  
+            } else { //se foi  
                 
                 vector<int> caminho; //vetor que vai armazenar o caminho entre os vetores
                 int vet_atual = t; //armazena o vertice do destino (t) para rastrear o caminho até a origem
@@ -80,28 +78,28 @@ class grafo{
                     caminho.push_back(vet_atual); //vertice atual é adicionado ao vetor caminho para construir o caminho
                     vet_atual = pais[vet_atual]; //A variável vet_atual é atualizada para o pai do vértice atual, permitindo
                                                     //que o loop continue varrendo todo o caminho.
-                };
+                }
                 
                 cout << "Caminho entre os vertices " << s << " e " << t << ": ";
                 //vai percorrer caminho (de trás pra frente)
                 for(int i = caminho.size() - 1; i >=0; i--){
                     cout << caminho[i];
                     if(i != 0) cout << "->"; //todos tem (menos o do indice 0)
-                };
+                }
                 cout << endl;
-            };
-        };
+            }
+        }
         // Destrutor
         ~grafo(){
             lista_adj.clear();
-        };
+        }
 };
 
 int main()
 {
     //Leitor dos arquivos e carregamento das estruturas do grafo
     
-    ifstream arquivo("arq_teste.txt"); //input-file-stream - faz o fluxo de entrada do arquivo
+    ifstream arquivo("pcv4.txt"); //input-file-stream - faz o fluxo de entrada do arquivo
     int vertices, arestas;
     arquivo >> vertices >> arestas; //usado para ler e armazenar os valores que estavam no arquivo
     
@@ -115,7 +113,7 @@ int main()
         int u, v;
         arquivo >> u >> v; //lê a proxima aresta do arquivo
         g.adicionar_aresta(u,v); //adiciona a aresta ao grafo 
-    };
+    }
     
     int s,t;
     cout << "Digite o vertice de origem e o de destino: ";
@@ -128,6 +126,4 @@ int main()
 
     
     return 0;
-}
-
-
+};
