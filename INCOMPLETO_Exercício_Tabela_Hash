@@ -1,0 +1,117 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class aluno {
+public:
+    string nome;
+    int matricula;
+
+    aluno(string n, int m) : nome(n), matricula(m) {};
+
+    string info() {
+        return nome + " - " + to_string(matricula);
+    };
+};
+
+//tabela hash com o encadeamento separado duplo
+class tabela_hash {
+    
+    int tamanho;
+    vector<vector<aluno>> primeiro_nivel; //lista
+    vector<vector<vector<aluno>>> segundo_nivel; //lista da lista
+
+    int hash_primeiro(string chave_str) {
+        int num = 0;
+        
+        for (char c : chave_str) {
+            num += int(c);
+        };
+        
+        return num % tamanho;
+    };
+    
+    int hash_segundo(string chave_str) {
+        int num = 0;
+        
+        for (char c : chave_str) {
+            num += int(c);
+        };
+        
+        return num % (tamanho / 10);
+    };
+
+    public:
+        tabela_hash(int s) : tamanho(int(s * 1.25)), primeiro_nivel(tamanho), segundo_nivel(tamanho / 10) {};
+        
+        void inserir(string chave, aluno valor) {
+            //recebe
+            int pos1 = hash_primeiro(chave);
+            int pos2 = hash_segundo(chave);
+            //insere
+            primeiro_nivel[pos1].push_back(valor);
+            segundo_nivel[pos1][pos2].push_back(valor);
+        };
+        
+        aluno* buscar(string chave) {
+            //recebe
+            int pos1 = hash_primeiro(chave);
+            int pos2 = hash_segundo(chave);
+            //verifica
+            for (aluno& valor : primeiro_nivel[pos1]) {
+                if (valor.nome == chave) {
+                    return &valor;
+                };
+            };
+            
+            for (aluno& valor : segundo_nivel[pos1][pos2]) {
+                if (valor.nome == chave) {
+                    return &valor;
+                };
+            };
+            //caso não ache
+            return nullptr;
+        };
+        
+        void imprimir() {
+            for (int i = 0; i < tamanho; i++) {
+                cout << "[";
+                
+                for (aluno& al : primeiro_nivel[i]) {
+                    cout << al.info() << " ";
+                };
+                
+                cout << "]" << endl;
+            };
+        };
+};
+
+int main() {
+    aluno a1("Maria", 12);
+    aluno a2("João", 6);
+    aluno a3("José", 24);
+    aluno a4("Lucas", 36);
+    aluno a5("Matheus", 3);
+    aluno a6("Simão", 7);
+
+    tabela_hash hash(10);
+    hash.inserir(a1.nome, a1);
+    hash.inserir(a2.nome, a2);
+    hash.inserir(a3.nome, a3);
+    hash.inserir(a4.nome, a4);
+    hash.inserir(a5.nome, a5);
+    hash.inserir(a6.nome, a6);
+
+    hash.imprimir();
+
+    aluno* al = hash.buscar("Maria");
+    if (al != nullptr) {
+        cout << "Aluno encontrado: " << al->info() << endl;
+    } else {
+        cout << "Aluno não encontrado." << endl;
+    }
+
+    return 0;
+};
+
+//verificar o que está impedindo a saída
